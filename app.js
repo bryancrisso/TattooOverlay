@@ -75,6 +75,7 @@ flipCamera.onclick = () =>
         cameraSensor.style.transform = "scaleX(-1)";
         cameraOutput.style.transform = "scaleX(-1)";
     }
+    cameraStart();
 }
 
 window.addEventListener("load", cameraStart, false);
