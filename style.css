@@ -23,7 +23,7 @@ html,body
 /*styling for capture button*/
 #camera--trigger
 {
-    width: 200px;
+    width: 100px;
     background-color: black;
     color: white;
     font-size: 16px;
@@ -34,12 +34,12 @@ html,body
     box-shadow: 0 5px 10px 0 rgba(0,0,0,0.2);
     position: fixed;
     bottom: 30px;
-    left: calc(50% - 100px);
+    left: calc(50% - 50px);
 }
 /*styling for download button*/
 #download--image
 {
-    width: 150px;
+    width: 125px;
     background-color: black;
     color: white;
     font-size: 16px;
@@ -52,6 +52,38 @@ html,body
     bottom: 30px;
     right: 30px;
     display: none;
+}
+/*styling for cancel button*/
+#cancel--image
+{
+    width: 125px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.2);
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    display: none;
+}
+#flip--cam
+{
+    width: 100px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.2);
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
 }
 
 /*styling for captured image*/
