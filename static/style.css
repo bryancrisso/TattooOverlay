@@ -14,12 +14,12 @@ html,body
     width: 100%;
     object-fit: cover;
 }
-/*flip camera output (because this is a selfie cam)*/
-#camera--view, #camera--sensor, #camera--output
+/*dont flip camera output (because this is (NOT) a selfie cam)*/
+/*#camera--view, #camera--sensor, #camera--output
 {
     transform: scaleX(-1);
     filter: FlipH;
-}
+}*/
 /*styling for capture button*/
 #camera--trigger
 {

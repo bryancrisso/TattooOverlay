@@ -1,11 +1,11 @@
-let constraints = {video : { facingMode:"user" }, audio:false}; //facingMode:"environment" to make it face rear cam
+let constraints = {video : { facingMode:"environment" }, audio:false}; //facingMode:"user" to make it face selfie
 const   cameraView = document.querySelector("#camera--view"),
         cameraOutput = document.querySelector("#camera--output"),
         cameraSensor = document.querySelector("#camera--sensor"),
         cameraTrigger = document.querySelector("#camera--trigger");
         downloadTrigger = document.querySelector("#download--image");
         cancelTrigger = document.querySelector("#cancel--image");
-        flipCamera = document.querySelector("#flip--cam");
+        //flipCamera = document.querySelector("#flip--cam");
         overlayImage = document.querySelector("#overlay");
 
 let downloadCount = 0;
@@ -88,7 +88,7 @@ cameraTrigger.onclick = async () =>
     //cameraOutput.src = cameraSensor.toDataURL("image/webp");
     cameraOutput.classList.add("taken");
 };
-
+/*
 flipCamera.onclick = () =>
 {
     if (constraints.video.facingMode == "user")
@@ -107,5 +107,5 @@ flipCamera.onclick = () =>
     }
     cameraStart();
 }
-
+*/
 window.addEventListener("load", cameraStart, false);
