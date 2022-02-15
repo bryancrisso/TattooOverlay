@@ -11,6 +11,12 @@ const   cameraView = document.querySelector("#camera--view"),
 let downloadCount = 0;
 const delay = async ms => new Promise(res => setTimeout(res, ms));
 
+//hide the canvas
+cameraSensor.style.display="none";
+//place the overlay tattoo
+overlayImage.style.top = (window.innerHeight/2 - overlayImage.getBoundingClientRect().height/2)+"px";
+overlayImage.style.left = (window.innerWidth/2 - overlayImage.getBoundingClientRect().width/2)+"px";
+
 function cameraStart()
 {
     navigator.mediaDevices
@@ -24,10 +30,6 @@ function cameraStart()
         {
             console.error("oops, something broke", error);
         });
-    //hide the canvas
-    cameraSensor.style.display="none";
-    overlayImage.style.top = (window.innerHeight/2 - overlayImage.getBoundingClientRect().height/2)+"px";
-    overlayImage.style.left = (window.innerWidth/2 - overlayImage.getBoundingClientRect().width/2)+"px";
 }
 
 cameraTrigger.onclick = async () => 
@@ -51,6 +53,7 @@ cameraTrigger.onclick = async () =>
         dHeight = cameraView.videoHeight/(cameraView.videoHeight/window.innerHeight));
     }
     
+    //draw the overlay onto the camera image
     let overlayBox = overlayImage.getBoundingClientRect();
 
     cameraSensor.getContext("2d").drawImage(overlayImage,
@@ -62,6 +65,7 @@ cameraTrigger.onclick = async () =>
     let imageOutput = ReImg.fromCanvas(cameraSensor);
     cameraOutput.src = imageOutput.toImg().src;
     
+    //show and setup download button
     downloadTrigger.style.display = "inline";
     downloadTrigger.onclick = () =>
     {
@@ -69,6 +73,7 @@ cameraTrigger.onclick = async () =>
         downloadCount++;
     }
 
+    //show and setup download button
     cancelTrigger.style.display = "inline";
     cancelTrigger.onclick = () =>
     {
@@ -86,7 +91,6 @@ cameraTrigger.onclick = async () =>
 
 flipCamera.onclick = () =>
 {
-    cameraStart();
     if (constraints.video.facingMode == "user")
     {
         constraints.video.facingMode = "environment";
@@ -101,6 +105,7 @@ flipCamera.onclick = () =>
         cameraSensor.style.transform = "scaleX(-1)";
         cameraOutput.style.transform = "scaleX(-1)";
     }
+    cameraStart();
 }
 
 window.addEventListener("load", cameraStart, false);
