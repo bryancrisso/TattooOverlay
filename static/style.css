@@ -35,6 +35,7 @@ html,body
     position: fixed;
     bottom: 30px;
     left: calc(50% - 50px);
+    z-index: 4;
 }
 /*styling for download button*/
 #download--image
@@ -52,6 +53,7 @@ html,body
     bottom: 30px;
     right: 30px;
     display: none;
+    z-index: 4;
 }
 /*styling for cancel button*/
 #cancel--image
@@ -69,6 +71,7 @@ html,body
     bottom: 100px;
     right: 30px;
     display: none;
+    z-index:4;
 }
 #flip--cam
 {
@@ -84,10 +87,21 @@ html,body
     position: fixed;
     bottom: 30px;
     left: 30px;
+    z-index: 4;
+}
+
+#overlay
+{
+    position: fixed;
+    top: calc(50% - 170px);
+    left: calc(50% - 56px);
+    height: 50%;
+    z-index: 3;
 }
 
 /*styling for captured image*/
-.taken{
+.taken
+{
     height: 100px!important;
     width: 100px!important;
     transition: all 0.5s ease-in;

@@ -6,6 +6,7 @@ const   cameraView = document.querySelector("#camera--view"),
         downloadTrigger = document.querySelector("#download--image");
         cancelTrigger = document.querySelector("#cancel--image");
         flipCamera = document.querySelector("#flip--cam");
+        overlayImage = document.querySelector("#overlay");
 
 let downloadCount = 0;
 const delay = async ms => new Promise(res => setTimeout(res, ms));
@@ -25,15 +26,39 @@ function cameraStart()
         });
     //hide the canvas
     cameraSensor.style.display="none";
+    overlayImage.style.top = (window.innerHeight/2 - overlayImage.getBoundingClientRect().height/2)+"px";
+    overlayImage.style.left = (window.innerWidth/2 - overlayImage.getBoundingClientRect().width/2)+"px";
 }
 
 cameraTrigger.onclick = async () => 
 {
     cameraOutput.classList.remove("taken");
 
-    cameraSensor.width = cameraView.videoWidth;
-    cameraSensor.height = cameraView.videoHeight;
-    cameraSensor.getContext("2d").drawImage(cameraView,0,0);
+    cameraSensor.width = window.innerWidth;
+    cameraSensor.height = window.innerHeight;
+
+    //when browser window doesnt fit exact size of camera view, stretch it out in either width or height to maintain aspect ratio
+    if (window.innerHeight<cameraView.videoHeight/(cameraView.videoWidth/window.innerWidth))
+    {
+        cameraSensor.getContext("2d").drawImage(cameraView,dx=0,dy=0-(cameraView.videoHeight/(cameraView.videoWidth/window.innerWidth)-window.innerHeight)/2, 
+        dWidth = cameraView.videoWidth/(cameraView.videoWidth/window.innerWidth),
+        dHeight = cameraView.videoHeight/(cameraView.videoWidth/window.innerWidth));
+    }
+    else
+    {
+        cameraSensor.getContext("2d").drawImage(cameraView,dx=0-(cameraView.videoWidth/(cameraView.videoHeight/window.innerHeight)-window.innerWidth)/2,dy=0, 
+        dWidth = cameraView.videoWidth/(cameraView.videoHeight/window.innerHeight),
+        dHeight = cameraView.videoHeight/(cameraView.videoHeight/window.innerHeight));
+    }
+    
+    let overlayBox = overlayImage.getBoundingClientRect();
+
+    cameraSensor.getContext("2d").drawImage(overlayImage,
+                                            dx=overlayBox.left,
+                                            dy=overlayBox.top,
+                                            dWidth = overlayBox.width,
+                                            dHeight = overlayBox.height);
+
     let imageOutput = ReImg.fromCanvas(cameraSensor);
     cameraOutput.src = imageOutput.toImg().src;
     
@@ -50,7 +75,7 @@ cameraTrigger.onclick = async () =>
         downloadTrigger.style.display = "none";
         cancelTrigger.style.display = "none";
         cameraOutput.classList.remove("taken");
-        cameraOutput.src = "transparency.png";
+        cameraOutput.src = "\\static\\transparency.png";
     }
     //wait for capture animation to reset
     await delay(100);
@@ -61,6 +86,7 @@ cameraTrigger.onclick = async () =>
 
 flipCamera.onclick = () =>
 {
+    cameraStart();
     if (constraints.video.facingMode == "user")
     {
         constraints.video.facingMode = "environment";
@@ -75,7 +101,6 @@ flipCamera.onclick = () =>
         cameraSensor.style.transform = "scaleX(-1)";
         cameraOutput.style.transform = "scaleX(-1)";
     }
-    cameraStart();
 }
 
 window.addEventListener("load", cameraStart, false);
