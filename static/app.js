@@ -7,6 +7,7 @@ const   cameraView = document.querySelector("#camera--view"),
         cancelTrigger = document.querySelector("#cancel--image");
         //flipCamera = document.querySelector("#flip--cam");
         overlayImage = document.querySelector("#overlay");
+        //debugText = document.querySelector("#debug--text");
 
 let pointerPos = {x:0,y:0}
 
@@ -26,6 +27,25 @@ document.addEventListener('mousemove', (event) =>
     pointerPos.y = event.clientY;
 });
 
+//track touch movement
+document.addEventListener('touchstart', (event) =>
+{
+    var touch = event.touches[0] || event.changedTouches[0];
+    pointerPos.x = touch.clientX;
+    pointerPos.y = touch.clientY;
+});
+document.addEventListener('touchmove', (event) => 
+{
+    
+    var touch = event.touches[0] || event.changedTouches[0];
+    pointerPos.x = touch.clientX;
+    pointerPos.y = touch.clientY;
+    
+    //prevent scrolling and zooming
+    event.preventDefault();
+
+}, { passive: false });
+
 
 let hammertime = new Hammer(overlay);
 hammertime.on('pan', function(ev) 
@@ -35,7 +55,6 @@ hammertime.on('pan', function(ev)
 
     let yPos = ev.center.y - (pointerPos.y - overlayImage.getBoundingClientRect().top);
     overlayImage.style.top = yPos + "px";
-
 });
 
 function cameraStart()
