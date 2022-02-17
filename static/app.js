@@ -8,6 +8,8 @@ const   cameraView = document.querySelector("#camera--view"),
         //flipCamera = document.querySelector("#flip--cam");
         overlayImage = document.querySelector("#overlay");
 
+let pointerPos = {x:0,y:0}
+
 let downloadCount = 0;
 const delay = async ms => new Promise(res => setTimeout(res, ms));
 
@@ -16,6 +18,25 @@ cameraSensor.style.display="none";
 //place the overlay tattoo
 overlayImage.style.top = (window.innerHeight/2 - overlayImage.getBoundingClientRect().height/2)+"px";
 overlayImage.style.left = (window.innerWidth/2 - overlayImage.getBoundingClientRect().width/2)+"px";
+
+//track mouse movement
+document.addEventListener('mousemove', (event) => 
+{
+	pointerPos.x = event.clientX;
+    pointerPos.y = event.clientY;
+});
+
+
+let hammertime = new Hammer(overlay);
+hammertime.on('pan', function(ev) 
+{
+    let xPos = ev.center.x - (pointerPos.x - overlayImage.getBoundingClientRect().left);
+    overlayImage.style.left = xPos + "px";
+
+    let yPos = ev.center.y - (pointerPos.y - overlayImage.getBoundingClientRect().top);
+    overlayImage.style.top = yPos + "px";
+
+});
 
 function cameraStart()
 {
